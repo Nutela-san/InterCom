@@ -1,28 +1,4 @@
 #include <Arduino.h>
-/*
-#include <InterCom.h>
-
-SimpleComand terminal;
-
-double dato;
-
-void test(void){
-  dato = 1000;
-}
-
-void setup() {
-  terminal.begin();
-  terminal.addComand(0,"LE",&dato);
-  terminal.addComand(1,"pos",&dato);
-  terminal.addComand(2,"info",&test);
-  terminal.addComand(3,"elquesea",&test);
-}
-
-void loop() {
-  //terminal.lisent();
-} 
-*/
-
 #include <InterCom.h>
 
 const uint8_t led = 2;
