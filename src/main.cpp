@@ -1,10 +1,12 @@
 #include <Arduino.h>
 #include <InterCom.h>
 
-const uint8_t led = 2;
+const uint8_t led = 13;
 bool state = false, blink_en = false, e= true;
 
 unsigned long last_t;
+
+float dato;
 
 SimpleComand terminal;
 
@@ -35,7 +37,7 @@ void setup() {
   terminal.addComand("list",list);
   terminal.addComand("led",tougle);
   terminal.addComand("echo",echo);
-  
+  terminal.addComand("pos",&dato);
 
   last_t = millis();
 }

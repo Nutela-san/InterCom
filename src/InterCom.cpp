@@ -10,12 +10,11 @@ void SimpleComand::begin(unsigned long baud_rate){
     port_comunication->println("Terminal inicializadad...");
 }
 
-void SimpleComand::addComand(char cmd_name[],double *dato2modify){
+void SimpleComand::addComand(char cmd_name[],float *dato2modify){
     uint8_t comand_lenght = sizeof(cmd_name)/sizeof(cmd_name[0]);
     if(cmd_list_count <= max_comand_available && comand_lenght<= max_comand_lenght){
-        strcpy(comand_list[cmd_list_count].comand_name,cmd_name);
-        comand_list[cmd_list_count].data2change = dato2modify;
-        comand_list[cmd_list_count].num_list = cmd_list_count;
+        strcpy(cmd_list[cmd_list_count].comand_name,cmd_name);
+        cmd_list[cmd_list_count].data2change = dato2modify;
     }
     cmd_list_count++;
 }
@@ -23,9 +22,8 @@ void SimpleComand::addComand(char cmd_name[],double *dato2modify){
 void SimpleComand::addComand(char cmd_name[],void (*subRutine)(void)){
     uint8_t comand_lenght = sizeof(cmd_name)/sizeof(cmd_name[0]);
     if(cmd_list_count <= max_comand_available && comand_lenght<= max_comand_lenght){
-        strcpy(comand_list2[cmd_list_count].comand_name,cmd_name);
-        comand_list2[cmd_list_count].num_list = cmd_list_count;
-        comand_list2[cmd_list_count].subRutine = subRutine;
+        strcpy(cmd_list2[cmd_list_count].comand_name,cmd_name);
+        cmd_list2[cmd_list_count].subRutine = subRutine;
     }
     cmd_list_count++;
 }
@@ -35,11 +33,11 @@ void SimpleComand::list(void){
     sprintf(msj,"-- Lista de Comandos --");
     port_comunication->println(msj);
     for(uint8_t i=0;i<max_comand_available;i++){
-        if(strlen(comand_list[i].comand_name) != 0) {
-            sprintf(msj,"%d.- '%s'",i+1, comand_list[i].comand_name);
+        if(strlen(cmd_list[i].comand_name) != 0) {
+            sprintf(msj,"%d.- '%s'",i+1, cmd_list[i].comand_name);
             port_comunication->println(msj);
-        }else if(strlen(comand_list2[i].comand_name) != 0){
-            sprintf(msj,"%d.- '%s'",i+1, comand_list2[i].comand_name);
+        }else if(strlen(cmd_list2[i].comand_name) != 0){
+            sprintf(msj,"%d.- '%s'",i+1, cmd_list2[i].comand_name);
             port_comunication->println(msj);
         }
     }
@@ -48,19 +46,20 @@ void SimpleComand::list(void){
 void SimpleComand::lisent(void){
     while(port_comunication->available()){
         char ch = port_comunication->read();
-        comand_readed[coun_char_read] = ch;
-        if(en_echo && !check_endline(ch)) port_comunication->write(ch);
-        if(check_endline(ch)){
+        bool endline = check_endline(ch);
+        if(ch != '\r' && !endline) cmd_readed[coun_char_read] = ch;
+        if(en_echo && ch != '\r') port_comunication->write(ch);
+        if(endline){
             check_cmd();
             coun_char_read = 0;
             for(uint8_t i=0;i<max_comand_lenght;i++){ //vaciando string
-                comand_readed[i]= (char)0;
+                cmd_readed[i]= 0;
             }
         }
         else if (coun_char_read>= max_comand_lenght){
             coun_char_read = 0;
             for(uint8_t i=0;i<max_comand_lenght;i++){ //vaciando string
-                comand_readed[i]= (char)0;
+                cmd_readed[i]= 0;
             }
         }
         else{
@@ -74,46 +73,44 @@ void SimpleComand::check_cmd(void){
     uint8_t exist = 0,i;
     uint8_t num_cmd;
     for(i=0;i<max_comand_available;i++){
-        if(cmpCMDs(comand_readed,comand_list[i].comand_name)){
+        if(cmpCMDs(cmd_readed,cmd_list[i].comand_name)){
             num_cmd = i;
             i = max_comand_available;
             exist = 1;
         }
-        else if (cmpCMDs(comand_readed,comand_list2[i].comand_name)){
+        else if (cmpCMDs(cmd_readed,cmd_list2[i].comand_name)){
             num_cmd = i;
             i = max_comand_available;
             exist = 2;
+        }
+        else{
+            exist = 0;
         }
     }
         
     char mensj[50];
     switch(exist){
         case 1:{
-            i=0;
-            while(comand_list[num_cmd].comand_name[i]!=0)i++;
-            for(uint8_t j=0;j<max_comand_lenght;j++){
-                if(comand_readed[j+i]!=0){
-                    comand_readed[j]= comand_readed[j+i];
-                }
-                else{
-                    comand_readed[j]= 0;
-                }
+            i=strlen(cmd_list[num_cmd].comand_name);
+            for(uint8_t j=i;j<max_comand_lenght;j++){
+                cmd_readed[j-i]= cmd_readed[j];
             }
-            if(strlen(comand_readed)!=0){
-                sprintf(mensj,"%s = %s",comand_list[num_cmd].comand_name,comand_readed);
-                *comand_list[num_cmd].data2change = strtod(comand_readed,0);
+            for(uint8_t j=max_comand_lenght-i;j<max_comand_lenght;j++){
+                cmd_readed[j]= 0;
             }
-            else{
-                sprintf(mensj,"%s = %f",comand_list[num_cmd].comand_name,*comand_list[num_cmd].data2change);
-            }
+            if(strlen(cmd_readed)!=0) *cmd_list[num_cmd].data2change = atof(cmd_readed);
+            sprintf(mensj,"%s = %f",cmd_list[num_cmd].comand_name,*cmd_list[num_cmd].data2change);
             break;
         }
         case 2:{
-            comand_list2[num_cmd].subRutine();
+            cmd_list2[num_cmd].subRutine();
+            for(i=0;i<50;i++){
+                mensj[i] = 0;
+            }
             break;
         }
-        default: {
-            sprintf(mensj,"Error -%s-",comand_readed);
+        case 0: {
+            sprintf(mensj,"Error -%s-",cmd_readed);
             break;
         }
     }
