@@ -99,7 +99,9 @@ void SimpleComand::check_cmd(void){
                 cmd_readed[j]= 0;
             }
             if(strlen(cmd_readed)!=0) *cmd_list[num_cmd].data2change = atof(cmd_readed);
-            sprintf(mensj,"%s = %f",cmd_list[num_cmd].comand_name,*cmd_list[num_cmd].data2change);
+            char float_value[10];
+            dtostrf(*cmd_list[num_cmd].data2change,1,3,float_value);
+            sprintf(mensj,"%s = %s",cmd_list[num_cmd].comand_name,float_value);
             break;
         }
         case 2:{
