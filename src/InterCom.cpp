@@ -7,7 +7,7 @@ SimpleComand::SimpleComand(){
 void SimpleComand::begin(unsigned long baud_rate){
     Serial.begin(baud_rate);
     port_comunication = &Serial;
-    port_comunication->println("Terminal inicializadad...");
+    port_comunication->println(F("-Enabled Terminal-"));
 }
 
 void SimpleComand::addComand(char cmd_name[],float *dato2modify){
@@ -101,7 +101,7 @@ void SimpleComand::check_cmd(void){
             if(strlen(cmd_readed)!=0) *cmd_list[num_cmd].data2change = atof(cmd_readed);
             char float_value[10];
             dtostrf(*cmd_list[num_cmd].data2change,1,3,float_value);
-            sprintf(mensj,"%s = %s",cmd_list[num_cmd].comand_name,float_value);
+            sprintf(mensj,"%s = %s\n",cmd_list[num_cmd].comand_name,float_value);
             break;
         }
         case 2:{
@@ -112,11 +112,11 @@ void SimpleComand::check_cmd(void){
             break;
         }
         case 0: {
-            sprintf(mensj,"Error -%s-",cmd_readed);
+            sprintf(mensj,"Error -%s-\n",cmd_readed);
             break;
         }
     }
-    if(en_echo) port_comunication->println(mensj);
+    if(en_echo) port_comunication->print(mensj);
 }
 
 bool cmpCMDs(char cmd_in[], char cmd_list[]){

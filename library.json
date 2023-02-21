@@ -18,7 +18,17 @@
             "email": "me@andrew-smith.com"
         }
     ],
+    "headers": "InterCom.h",
     "license": "MIT",
     "frameworks": "arduino",
-    "platforms": "*"
+    "platforms": "*",
+    "export":{
+        "exclude":[
+            "test",
+            ".pio",
+            ".vscode",
+            "*.ini",
+            "src/main.cpp"
+        ]
+    }
 }
