@@ -1,0 +1,24 @@
+{
+    "name": "InterCom",
+    "version": "0.1.0",
+    "description": "Implementación de un intérprete de comandos, los cuales pueden ser agregados, configurados y administrados por los usuarios. Su implementación pretende se una libreria",
+    "keywords": "command, serial, parsing, serial comunication, UPIIZ, IPN, CMR-UPIIZ",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Nutela-san/InterCom.git"
+    },
+    "authors": [
+        {
+            "name": "Pablo Contreras",
+            "email": "lcontrerasa1701@alumno.ipn.mx",
+            "maintainer": true
+        },
+        {
+            "name": "Diego CMR",
+            "email": "me@andrew-smith.com"
+        }
+    ],
+    "license": "MIT",
+    "frameworks": "arduino",
+    "platforms": "*"
+}
