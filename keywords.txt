@@ -1,0 +1,39 @@
+#######################################
+# Coloreado de sintaxis para libreria 
+# InterCom en Arduino IDE
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SimpleComand	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin           KEYWORD2
+addComand       KEYWORD2
+addComand       KEYWORD2
+list            KEYWORD2
+lisent          KEYWORD2
+check_cmd       KEYWORD2
+check_endline   KEYWORD2
+enable_echo     KEYWORD2
+cmpCMDs         KEYWORD2
+
+#######################################
+# Structs (KEYWORD3)
+#######################################
+
+comand          KEYWORD3
+comand2funtion  KEYWORD3
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+max_comand_available    LITERAL1
+max_comand_lenght       LITERAL1
+
