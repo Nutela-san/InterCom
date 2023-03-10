@@ -1,6 +1,6 @@
 {
     "name": "InterCom",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "description": "Implementación de un intérprete de comandos, los cuales pueden ser agregados, configurados y administrados por los usuarios. Su implementación pretende se una libreria",
     "keywords": "command, serial, parsing, serial comunication, UPIIZ, IPN, CMR-UPIIZ",
     "repository": {
@@ -14,8 +14,13 @@
             "maintainer": true
         },
         {
+            "name": "CMR-UPIIZ",
+            "email": "clubcmrupiiz@gmail.com",
+            "maintainer": true
+        },
+        {
             "name": "Diego CMR",
-            "email": "me@andrew-smith.com"
+            "email": "dcabreras1900@alumno.ipn.mx"
         }
     ],
     "headers": "InterCom.h",

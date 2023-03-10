@@ -4,9 +4,8 @@ SimpleCommand::SimpleCommand(){
     //nada
 }
 
-void SimpleCommand::begin(unsigned long baud_rate){
-    Serial.begin(baud_rate);
-    port_comunication = &Serial;
+void SimpleCommand::begin(Stream *port){
+    port_comunication = port;
     port_comunication->println(F("-Enabled Terminal-"));
 }
 

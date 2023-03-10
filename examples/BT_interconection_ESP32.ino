@@ -1,9 +1,11 @@
 #include <Arduino.h>
 #include <InterCom.h>
+#include <BluetoothSerial.h>
 
 SimpleCommand cmd;
+BluetoothSerial bt_port;
 
-uint8_t led = LED_BUILTIN;
+uint8_t led = 2;
 bool state = false, en_bl = false;
 unsigned long t;
 float periodo_ms = 500;
@@ -37,9 +39,9 @@ void setup()
 {
     pinMode(led, OUTPUT);
 
-    Serial.begin(115200);
+    bt_port.begin("InterCominicador");
 
-    cmd.begin(&Serial);
+    cmd.begin(&bt_port);
     cmd.enable_echo(true);
     cmd.addCommand("blink", blink_en);
     cmd.addCommand("list", list);
