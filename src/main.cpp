@@ -1,20 +1,14 @@
 #include <Arduino.h>
 #include <InterCom.h>
-#include <SoftwareSerial.h>
-//La libreria solo funciona para los AVR y la placa bluepill (stm32f103)
 
 SimpleCommand cmd;
 
-const uint8_t s_rx = 11, s_tx = 12;  
-//tomar encuenta que pines se puede unsar para Rx
-//segun la documentacion de la libreira de SoftwareSerial.h
-
-SoftwareSerial ss_port(s_tx,s_rx);
-
-const uint8_t led = LED_BUILTIN;
+uint8_t led = 2;
 bool state = false, en_bl = false;
 unsigned long t;
 float periodo_ms = 500;
+
+
 
 void tougle()
 {
@@ -45,9 +39,9 @@ void setup()
 {
     pinMode(led, OUTPUT);
 
-    ss_port.begin(9600);
+    Serial.begin(115200);
 
-    cmd.begin(&ss_port);
+    cmd.begin(&Serial);
     cmd.enable_echo(true);
     cmd.addCommand("blink", blink_en);
     cmd.addCommand("list", list);
@@ -56,7 +50,7 @@ void setup()
 
 void loop()
 {
-    cmd.listent();
+    cmd.listen();
     if (en_bl)
         blink();
 }

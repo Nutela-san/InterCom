@@ -37,11 +37,12 @@ class SimpleCommand{
     SimpleCommand(void);
     ~SimpleCommand(){}
 
+    void begin(unsigned long baud_rate);
     void begin(Stream *port); // configurar la comunicacion para donde resivira los datos
-    void addCommand(char cmd_name[],float *dato2modify);
-    void addCommand(char cmd_name[],void (*subRutine)(void));
+    void addCommand(const char cmd_name[],float *dato2modify);
+    void addCommand(const char cmd_name[],void (*subRutine)(void));
     void list(void);
-    void listent(void);
+    void listen(void);
     void check_cmd(void);
     bool check_endline(char c);
     void enable_echo(bool en);

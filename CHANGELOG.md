@@ -11,4 +11,8 @@ Lista de los cambios realisados en la libreria de InterCom. </br>
 - Solo con la implementacion para usar el objeto "Serial" como medio de comunicación con la libreria.
 
 ## [relese v0.2.0] - 09/03/2023
-- Se implemento la libreria para poder asignar cualquier objeto con herencia de la clase Stream como medio para resivir comandos.
+- Se implemento la libreria para poder asignar cualquier objeto con herencia de la clase Stream (Serial, BluetoothSerial, SoftwareSerial) como medio para resivir comandos.
+
+## [relese v0.2.1] - 09/03/2023
+- Corrección de sintaxis de algunas palabras.
+- Se añadio soporte para las placas raspberry pi pico.

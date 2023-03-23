@@ -48,7 +48,7 @@ void setup()
 
 void loop()
 {
-    cmd.listent();
+    cmd.listen();
     if (en_bl)
         blink();
 }

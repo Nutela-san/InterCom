@@ -1,6 +1,6 @@
 {
     "name": "InterCom",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Implementación de un intérprete de comandos, los cuales pueden ser agregados, configurados y administrados por los usuarios. Su implementación pretende se una libreria",
     "keywords": "command, serial, parsing, serial comunication, UPIIZ, IPN, CMR-UPIIZ",
     "repository": {
