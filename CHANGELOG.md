@@ -16,3 +16,8 @@ Lista de los cambios realisados en la libreria de InterCom. </br>
 ## [relese v0.2.1] - 09/03/2023
 - Corrección de sintaxis de algunas palabras.
 - Se añadio soporte para las placas raspberry pi pico.
+- se hicieron pruebas exitosas en placas de plataforma STM-32.
+
+## [relese v0.2.2] - 
+- Correciones simples en ejemplos y en sintaxis.
+- Nueva rama en git con la estructura correcta para añadir la liberia en Arduino IDE. 

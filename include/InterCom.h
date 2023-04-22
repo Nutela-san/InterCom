@@ -32,6 +32,9 @@ class SimpleCommand{
     uint8_t coun_char_read=0, cmd_list_count = 0;
     Stream *port_comunication = nullptr; //!< Serial terminal variable if provided
     bool en_echo;
+    
+    void check_cmd(void);
+    bool check_endline(char c);
 
     public:
     SimpleCommand(void);
@@ -43,8 +46,6 @@ class SimpleCommand{
     void addCommand(const char cmd_name[],void (*subRutine)(void));
     void list(void);
     void listen(void);
-    void check_cmd(void);
-    bool check_endline(char c);
     void enable_echo(bool en);
     
 };

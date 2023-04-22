@@ -7,33 +7,32 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-SimpleComand	KEYWORD1
+SimpleCommand	KEYWORD1
+InterCom.h	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-begin           KEYWORD2
-addComand       KEYWORD2
-addComand       KEYWORD2
-list            KEYWORD2
-lisent          KEYWORD2
-check_cmd       KEYWORD2
-check_endline   KEYWORD2
-enable_echo     KEYWORD2
-cmpCMDs         KEYWORD2
+begin	KEYWORD2
+addCommand	KEYWORD2
+list	KEYWORD2
+listen	KEYWORD2
+check_cmd	KEYWORD2
+check_endline	KEYWORD2
+enable_echo	KEYWORD2
+cmpCMDs	KEYWORD2
 
 #######################################
 # Structs (KEYWORD3)
 #######################################
 
-comand          KEYWORD3
-comand2funtion  KEYWORD3
+max_cmd_available	KEYWORD3
+max_cmd_lenght	KEYWORD3
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-max_comand_available    LITERAL1
-max_comand_lenght       LITERAL1
-
+Command	LITERAL1
+Command2funtion	LITERAL1
