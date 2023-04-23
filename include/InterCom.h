@@ -1,5 +1,5 @@
-#ifndef _INTERCOM_H
-#define _INTERCOM_H
+#ifndef _INTERCOM_H_
+#define _INTERCOM_H_
 
 #include <Arduino.h>
 #include <string.h>
@@ -30,20 +30,22 @@ class SimpleCommand{
     Command2funtion cmd_list2[max_cmd_available];
     char cmd_readed[max_cmd_lenght]={0}, end_line = '\n';
     uint8_t coun_char_read=0, cmd_list_count = 0;
-    HardwareSerial *port_comunication = nullptr; //!< Serial terminal variable if provided
+    Stream *port_comunication = nullptr; //!< Serial terminal variable if provided
     bool en_echo;
+    
+    void check_cmd(void);
+    bool check_endline(char c);
 
     public:
     SimpleCommand(void);
     ~SimpleCommand(){}
 
-    void begin(unsigned long baud_rate); // configurar la comunicacion para donde resivira los datos
-    void addCommand(char cmd_name[],float *dato2modify);
-    void addCommand(char cmd_name[],void (*subRutine)(void));
+    void begin(unsigned long baud_rate);
+    void begin(Stream *port); // configurar la comunicacion para donde resivira los datos
+    void addCommand(const char cmd_name[],float *dato2modify);
+    void addCommand(const char cmd_name[],void (*subRutine)(void));
     void list(void);
-    void listent(void);
-    void check_cmd(void);
-    bool check_endline(char c);
+    void listen(void);
     void enable_echo(bool en);
     
 };

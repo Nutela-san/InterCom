@@ -6,11 +6,15 @@ SimpleCommand::SimpleCommand(){
 
 void SimpleCommand::begin(unsigned long baud_rate){
     Serial.begin(baud_rate);
-    port_comunication = &Serial;
+    begin(&Serial);
+}
+
+void SimpleCommand::begin(Stream *port){
+    port_comunication = port;
     port_comunication->println(F("-Enabled Terminal-"));
 }
 
-void SimpleCommand::addCommand(char cmd_name[],float *dato2modify){
+void SimpleCommand::addCommand(const char cmd_name[],float *dato2modify){
     uint8_t Command_lenght = sizeof(cmd_name)/sizeof(cmd_name[0]);
     if(cmd_list_count <= max_cmd_available && Command_lenght<= max_cmd_lenght){
         strcpy(cmd_list[cmd_list_count].cmd_name,cmd_name);
@@ -19,7 +23,7 @@ void SimpleCommand::addCommand(char cmd_name[],float *dato2modify){
     cmd_list_count++;
 }
 
-void SimpleCommand::addCommand(char cmd_name[],void (*subRutine)(void)){
+void SimpleCommand::addCommand(const char cmd_name[],void (*subRutine)(void)){
     uint8_t Command_lenght = sizeof(cmd_name)/sizeof(cmd_name[0]);
     if(cmd_list_count <= max_cmd_available && Command_lenght<= max_cmd_lenght){
         strcpy(cmd_list2[cmd_list_count].cmd_name,cmd_name);
@@ -43,7 +47,7 @@ void SimpleCommand::list(void){
     }
 }
 
-void SimpleCommand::listent(void){
+void SimpleCommand::listen(void){
     while(port_comunication->available()){
         char ch = port_comunication->read();
         bool endline = check_endline(ch);
@@ -99,9 +103,14 @@ void SimpleCommand::check_cmd(void){
                 cmd_readed[j]= 0;
             }
             if(strlen(cmd_readed)!=0) *cmd_list[num_cmd].data2change = atof(cmd_readed);
+            
+            #ifdef ARDUINO_RASPBERRY_PI_PICO
+            sprintf(mensj,"%s = %f\n",cmd_list[num_cmd].cmd_name,*cmd_list[num_cmd].data2change);
+            #else
             char float_value[10];
             dtostrf(*cmd_list[num_cmd].data2change,1,3,float_value);
             sprintf(mensj,"%s = %s\n",cmd_list[num_cmd].cmd_name,float_value);
+            #endif
             break;
         }
         case 2:{

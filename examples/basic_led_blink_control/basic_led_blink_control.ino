@@ -4,11 +4,9 @@
 SimpleCommand cmd;
 
 uint8_t led = LED_BUILTIN;
-bool state = false, en_bl = true;
+bool state = false, en_bl = false;
 unsigned long t;
 float periodo_ms = 500;
-
-
 
 void tougle()
 {
@@ -38,8 +36,9 @@ void list()
 void setup()
 {
     pinMode(led, OUTPUT);
-    
+
     Serial.begin(115200);
+
     cmd.begin(&Serial);
     cmd.enable_echo(true);
     cmd.addCommand("blink", blink_en);
