@@ -35,6 +35,7 @@ class SimpleCommand{
     
     void check_cmd(void);
     bool check_endline(char c);
+    bool check_backspace(char c);
 
     public:
     SimpleCommand(void);

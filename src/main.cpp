@@ -2,12 +2,20 @@
 #include <InterCom.h>
 
 SimpleCommand cmd;
-
-uint8_t led = LED_BUILTIN;
+#ifdef ARDUINO_ESP32C3_DEV
+HWCDC SerialUSB;
+#define SerialPort SerialUSB
+const uint8_t led = 8;
+#elif ARDUINO_ESP32_DEV
+#define SerialPort Serial
+const uint8_t led = 2;
+#else
+#define SerialPort Serial
+const uint8_t led = LED_BUILTIN;
+#endif
 bool state = false, en_bl = true;
 unsigned long t;
 float periodo_ms = 500;
-
 
 
 void tougle()
@@ -39,8 +47,8 @@ void setup()
 {
     pinMode(led, OUTPUT);
     
-    Serial.begin(115200);
-    cmd.begin(&Serial);
+    SerialPort.begin(115200);
+    cmd.begin(&SerialPort);
     cmd.enable_echo(true);
     cmd.addCommand("blink", blink_en);
     cmd.addCommand("list", list);

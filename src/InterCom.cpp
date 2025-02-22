@@ -51,8 +51,16 @@ void SimpleCommand::listen(void){
     while(port_comunication->available()){
         char ch = port_comunication->read();
         bool endline = check_endline(ch);
-        if(ch != '\r' && !endline) cmd_readed[coun_char_read] = ch;
-        if(en_echo && ch != '\r') port_comunication->write(ch);
+        bool backspace = check_backspace(ch);
+        
+        if(ch != '\r' && !endline && !backspace) cmd_readed[coun_char_read] = ch;
+        if(en_echo && ch != '\r'){
+            if(backspace){
+                port_comunication->write(ch);
+                port_comunication->write(' ');
+            }
+            port_comunication->write(ch);
+        }
         if(endline){
             check_cmd();
             coun_char_read = 0;
@@ -67,7 +75,12 @@ void SimpleCommand::listen(void){
             }
         }
         else{
-            coun_char_read ++;
+            if(backspace && coun_char_read>0){
+                coun_char_read--;
+            }
+            else{
+                coun_char_read ++;
+            }
         }
         
     }
@@ -147,6 +160,11 @@ bool cmpCMDs(char cmd_in[], char cmd_list[]){
 
 bool SimpleCommand::check_endline(char c){
     if(c == end_line) return true;
+    return false;
+}
+
+bool SimpleCommand::check_backspace(char c){
+    if(c == '\b' || c == 127) return true;
     return false;
 }
 
