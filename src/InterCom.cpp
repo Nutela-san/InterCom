@@ -15,7 +15,7 @@ void SimpleCommand::begin(Stream *port){
 }
 
 void SimpleCommand::addCommand(const char cmd_name[],float *dato2modify){
-    uint8_t Command_lenght = sizeof(cmd_name)/sizeof(cmd_name[0]);
+    uint8_t Command_lenght = sizeof((char*)cmd_name)/sizeof(cmd_name[0]);
     if(cmd_list_count <= max_cmd_available && Command_lenght<= max_cmd_lenght){
         strcpy(cmd_list[cmd_list_count].cmd_name,cmd_name);
         cmd_list[cmd_list_count].data2change = dato2modify;
@@ -24,7 +24,7 @@ void SimpleCommand::addCommand(const char cmd_name[],float *dato2modify){
 }
 
 void SimpleCommand::addCommand(const char cmd_name[],void (*subRutine)(void)){
-    uint8_t Command_lenght = sizeof(cmd_name)/sizeof(cmd_name[0]);
+    uint8_t Command_lenght = sizeof((char*)cmd_name)/sizeof(cmd_name[0]);
     if(cmd_list_count <= max_cmd_available && Command_lenght<= max_cmd_lenght){
         strcpy(cmd_list2[cmd_list_count].cmd_name,cmd_name);
         cmd_list2[cmd_list_count].subRutine = subRutine;
@@ -75,7 +75,8 @@ void SimpleCommand::listen(void){
             }
         }
         else{
-            if(backspace && coun_char_read>0){
+            if(backspace && coun_char_read>=0){
+                cmd_readed[coun_char_read] = 0;
                 coun_char_read--;
             }
             else{
@@ -88,7 +89,7 @@ void SimpleCommand::listen(void){
 
 void SimpleCommand::check_cmd(void){
     uint8_t exist = 0,i;
-    uint8_t num_cmd;
+    uint8_t num_cmd = 0;
     for(i=0;i<max_cmd_available;i++){
         if(cmpCMDs(cmd_readed,cmd_list[i].cmd_name)){
             num_cmd = i;
